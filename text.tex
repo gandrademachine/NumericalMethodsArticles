@@ -5,28 +5,69 @@
 
 \vspace{0.5cm}
 % \noident\textbf{RESUMO.}
-% Neste artigo analisaremos o problema de
+% Neste relatório analisaremos o problema de
 % transferência de calor em regime permanente em superfícies estendidas 
 % unidimensionais. Começamos fazendo uma introdução do problema, em seguida apresentamos a formulação numérica do problema, resultados e conclusão. 
 
-\section{INTRODUÇÃO:}
+\section{INTRODUÇÃO}
 
-\section{O PROBLEMA E A FORMULAÇÃO NUMÉRICA}
 
-O problema de transferência de calor é \ldots\newline
+\begin{equation}
+  \label{heat}
+  \frac{d^2 T}{dx^2} - m^2 [T(x) - T_{amb}] = 0
+\end{equation}
+sendo o termo 
+\section{O PROBLEMA}
+
+O problema de transferência de calor é um problema de segunda ordem \ldots\newline
+
+A maneira mais apropriada de resolver o problema analítico descrito em \ref{heat} é por meio da utilização da técnica da equação característica. Nela escreve-se a equação diferencial de segunda
+ordem em uma equação polinomial de segundo grau para resolver o problema homogêneo e após isso, encontra-se a solução particular. Reescreve-se \label{heat} de maneira a separar todos os termos $T(x)$ do
+"resto".
+
+\begin{equation}
+  \label{heatmodified}
+  \frac{d^2 T}{dx^2} - m^2 T(x) = - m^2 T_{amb} 
+\end{equation}
+
+a equação característica $Z(r)$ é obtida a partir da reformulação da EDO em forma polinomial, e com a obtenção das raízes, gera-se a solução homogênea da EDO. 
+\begin{equation}
+  \label{caracter}
+  Z(r) = r^2 - m^2, Z(r) = 0  \rightarrow  r^2 - m^2 = 0 \rightarrow  r^2 = m^2 \rightarrow  r = \pm m 
+\end{equation}
+
+a solução homogênea $y_{h}(x)$ é escrita como 
+\begin{equation}
+  \label{homogenous}
+  y_{h}(x) = c_1 \exp(mx) + c_2 \exp(-mx)
+\end{equation}
+\newline
+
 A abordagem numérica utilizada para este trabalho será apoiada na utilização de métodos de diferenças finitas, com ênfase em uma abordagem por diferenças centradas de três pontos. Tal formulação tem
 origem na definição de derivada. A derivada é fornecida pela definição de limite \newline
 
 \begin{equation}
+  \label{f1}
   \frac{df}{dx} = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}
 \end{equation}
 
-Seja portato, $g(x) =  \dot{f}(x)$ a derivada de primeira ordem da função genérica $f$, a derivada de segunda ordem passa a poder ser escrita como uma 
-% 
-% \section{RESULTADOS NUMÉRICOS:}
-% 
-% \section{CONCLUSÃO:}
-% 
+Seja portato, $g(x) =  \dot{f}(x)$ a derivada de primeira ordem da função genérica $f$, a derivada de segunda de $f$ pode ser escrita como a derivada primeira de $g$, portanto 
+
+\begin{equation}
+  \label{f2}
+  \frac{d^2 f}{dx^2} = \frac{dg}{dx} = \lim_{\Delta x \to 0} \frac{g(x + \Delta x) - g(x)}{\Delta x}
+\end{equation}
+
+
+\section{RESULTADOS NUMÉRICOS}
+
+Nesta seção apresentamos alguns resultados referêntes ao modelo discutido acima. \newline
+Para este trabalho, inicialmente disponibilizamos  
+
+\section{CONCLUSÃO}
+
+Neste trabalho apresentamos o problema de transferência de calor em regime 
+permanente. Também foi apresentado a formulação utilizanda para a solução, incluindo o sistema de equações, matrizes tridiagonais, ordem de erro, juntamente com simulações contendo as condições fornecidas pela tarefa bem como outras simulações contendo alterações em alguns componentes e discutimos que estas alterações significam em termos das características nos gráficos. 
 % \section{REFERÊNCIAS:}
 
 \end{document}
