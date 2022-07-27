@@ -1,5 +1,8 @@
 \documentclass[a4paper, 12pt]{article}
 \usepackage{booktabs}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -16,21 +19,21 @@
   \label{heat}
   \frac{d^2 T}{dx^2} - m^2 [T(x) - T_{amb}] = 0
 \end{equation}
-sendo o termo 
+sendo o termo
+
 \section{O PROBLEMA}
 
-O problema de transferência de calor é um problema de segunda ordem \ldots\newline
-
-A maneira mais apropriada de resolver o problema analítico descrito em \ref{heat} é por meio da utilização da técnica da equação característica. Nela escreve-se a equação diferencial de segunda
-ordem em uma equação polinomial de segundo grau para resolver o problema homogêneo e após isso, encontra-se a solução particular. Reescreve-se \label{heat} de maneira a separar todos os termos $T(x)$ do
-"resto".
+O problema de transferência de calor é um problema de segunda ordem \ldots
+A maneira mais apropriada de resolver o problema analítico descrito em~\ref{heat} é por meio da utilização da técnica da equação característica. Nela escreve-se a equação diferencial de segunda
+ordem em uma equação polinomial de segundo grau para resolver o problema homogêneo e após isso, encontra-se a solução particular. Reescreve-se~\label{heat} de maneira a separar todos os termos $T(x)$ do
+`resto'.
 
 \begin{equation}
   \label{heatmodified}
   \frac{d^2 T}{dx^2} - m^2 T(x) = - m^2 T_{amb} 
 \end{equation}
 
-a equação característica $Z(r)$ é obtida a partir da reformulação da EDO em forma polinomial, e com a obtenção das raízes, gera-se a solução homogênea da EDO. 
+a equação característica $Z(r)$ é obtida a partir da reformulação da EDO em forma polinomial, e com a obtenção das raízes, gera-se a solução homogênea da EDO 
 \begin{equation}
   \label{caracter}
   Z(r) = r^2 - m^2, Z(r) = 0  \rightarrow  r^2 - m^2 = 0 \rightarrow  r^2 = m^2 \rightarrow  r = \pm m 
@@ -41,28 +44,85 @@ a solução homogênea $y_{h}(x)$ é escrita como
   \label{homogenous}
   y_{h}(x) = c_1 \exp(mx) + c_2 \exp(-mx)
 \end{equation}
-\newline
 
-A abordagem numérica utilizada para este trabalho será apoiada na utilização de métodos de diferenças finitas, com ênfase em uma abordagem por diferenças centradas de três pontos. Tal formulação tem
-origem na definição de derivada. A derivada é fornecida pela definição de limite \newline
 
-\begin{equation}
-  \label{f1}
-  \frac{df}{dx} = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}
-\end{equation}
-
-Seja portato, $g(x) =  \dot{f}(x)$ a derivada de primeira ordem da função genérica $f$, a derivada de segunda de $f$ pode ser escrita como a derivada primeira de $g$, portanto 
+A abordagem numérica utilizada para este trabalho será apoiada na utilização de métodos de diferenças finitas, com ênfase em uma abordagem por diferenças centradas de três pontos para a 
+segunda derivada. 
+Tal formulação é obtida a partir da discretização do domínio, onde $t_i = T(x_i)$, $t_{i+1} = T(x_i + \Delta x)$, $t_{i-1} = T(x_i - \Delta x)$. 
+Fazendo a aproximação em série de Taylor em $u_{i+1}$ e $u_{i-1}$ resulta em 
 
 \begin{equation}
-  \label{f2}
-  \frac{d^2 f}{dx^2} = \frac{dg}{dx} = \lim_{\Delta x \to 0} \frac{g(x + \Delta x) - g(x)}{\Delta x}
+  \label{uip1}
+  t_{i+1} = t_i+\sum_{j=1}^n \frac{\Delta x^j}{j!}\frac{d^jT}{dx^j}\Bigm\lvert_{x_i} \\ 
 \end{equation}
+\begin{equation}
+  \label{uim1}
+  t_{i-1} = t_i+\sum_{j=1}^n \frac{(-\Delta x)^j}{j!}\frac{d^jT}{dx^j}\Bigm\lvert_{x_i}
+\end{equation}
+
+Somando as equações~\ref{uip1} e~\ref{uim1}, os termos ímpares se cancelam resultando em 
+\begin{equation}
+  \label{uims}
+  t_{i+1}+t_{i-1}= 2t_i + \frac{2\Delta x^2}{2}\frac{d^2T}{dx^2}\Bigm\lvert_{x_i} + \frac{2\Delta x^4}{4!}\frac{d^4T}{dx^4}\Bigm\lvert_{x_i} + \ldots
+\end{equation}
+
+isolando o termo da derivada segunda, obtém-se
+
+\begin{equation}
+  \label{udv2}
+  \frac{d^2T}{dx^2}\Bigm\lvert_{x_i}=\frac{t_{i+1}+t_{i-1} - 2t_i}{\Delta x^2} - \Big( \frac{2\Delta x^2}{4!}\frac{d^4T}{dx^4}\Bigm\lvert_{x_i} + \ldots \Big)  
+\end{equation}
+
+aplicando \ref{udv2} em \ref{heat} e separando o erro numérico 
+\begin{equation}
+  \label{udv2}
+  \frac{t_{i+1}+t_{i-1} - 2t_i}{\Delta x^2} - m^2 [t_i - t_{amb}] = \Big( \frac{2\Delta x^2}{4!}\frac{d^4T}{dx^4}\Bigm\lvert_{x_i} + \ldots \Big) 
+\end{equation}
+que resulta na discretização completa de \ref{heat} que possui ordem $\mathcal(O)(\Delta x^2)$ tendo em vista que este é o maior erro que o método possui.
+% origem na definição de derivada. A derivada é fornecida pela definição de limite 
+% 
+% \begin{equation}
+%   \label{f1}
+%   \frac{dF}{dx} = \lim_{\Delta x \to 0} \frac{F(x + \Delta x) - F(x)}{\Delta x}
+% \end{equation}
+% 
+% Seja portato, $G(x) =  \dot{F}(x)$ a derivada de primeira ordem da função genérica $f$, a derivada de segunda de $f$ pode ser escrita como a derivada primeira de $g$, portanto 
+% 
+% \begin{equation}
+%   \label{f2}
+%   \frac{d^2 F}{dx^2} = \frac{dG}{dx} = \lim_{\Delta x \to 0} \frac{G(x + \Delta x) - G(x)}{\Delta x}
+% \end{equation}
+% substituindo a definição de derivada contida em~\ref{f1} na equação~\ref{f2}
+% 
+% \begin{equation}
+%   \label{f2d}
+%   \frac{d^2 F}{dx^2} =  \lim_{\Delta x \to 0} \frac{\frac{F(x + \Delta x+ \Delta x)-F(x + \Delta x)}{\Delta x} - \frac{F(x + \Delta x) - F(x)}{\Delta x}}{\Delta x} = \lim_{\Delta x \to 0} \frac{F(x + 2\Delta x) - 2F(x + \Delta x) - F(x)}{\Delta x^2}
+% \end{equation}
+% Ao discretizar o domínio, $f_i = F(x_i)$, $f_i = F(x_i)$, $f_{i-1} = F(x_i - \Delta x)$, portanto, obtém-se a aproximação avançada no espaço 
 
 
 \section{RESULTADOS NUMÉRICOS}
 
-Nesta seção apresentamos alguns resultados referêntes ao modelo discutido acima. \newline
-Para este trabalho, inicialmente disponibilizamos  
+Nesta seção apresentamos alguns resultados referêntes ao modelo discutido acima. 
+Para este trabalho, foram disponibilizados certas condições para que fosse simulado, mas também mostrando alterações em certos valores e analisamos o que isso representa.
+\begin{table}[ht!]
+\centering
+\begin{tabular}{cc}
+  $T_0:$ & $180^\circ$ C \\
+  $T_n:$ & $65^\circ$ C  \\
+  $T_{amb}:$ & $20^\circ$ C  \\
+   h: & $150\frac{W}{m^2K}$ \\
+   k: & $120\frac{W}{mK}$ \\
+   D: & $3,5 \times 10^{-3}m$ \\
+   L: & $0,15m$ \\
+\end{tabular}
+\end{table}
+Abaixo apresenta-se o resultado desta simulação
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.8]{figs/fst.png}
+\end{figure}
+ 
 
 \section{CONCLUSÃO}
 
