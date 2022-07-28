@@ -3,6 +3,7 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{systeme}
 
 \begin{document}
 
@@ -19,8 +20,13 @@
   \label{heat}
   \frac{d^2 T}{dx^2} - m^2 [T(x) - T_{amb}] = 0
 \end{equation}
-sendo o termo
+sendo o termo $T_{amb}$ é a temperatura ambiente, $T(x)$ é a temperatura ao longo do atleta, $m^2$ é o 
 
+\begin{equation}
+  \label{m2}
+  m^2 = \frac{hP}{kA}
+\end{equation}
+onde 
 \section{O PROBLEMA}
 
 O problema de transferência de calor é um problema de segunda ordem \ldots
@@ -75,10 +81,22 @@ isolando o termo da derivada segunda, obtém-se
 
 aplicando \ref{udv2} em \ref{heat} e separando o erro numérico 
 \begin{equation}
-  \label{udv2}
-  \frac{t_{i+1}+t_{i-1} - 2t_i}{\Delta x^2} - m^2 [t_i - t_{amb}] = \Big( \frac{2\Delta x^2}{4!}\frac{d^4T}{dx^4}\Bigm\lvert_{x_i} + \ldots \Big) 
+  \label{udv2n}
+  \frac{t_{i+1}+t_{i-1} - 2t_i}{\Delta x^2} - m^2 [t_i - T_{amb}] = \Big( \frac{2\Delta x^2}{4!}\frac{d^4T}{dx^4}\Bigm\lvert_{x_i} + \ldots \Big) 
 \end{equation}
-que resulta na discretização completa de \ref{heat} que possui ordem $\mathcal(O)(\Delta x^2)$ tendo em vista que este é o maior erro que o método possui.
+que resulta na discretização completa de \ref{heat} que possui ordem $\mathcal(O)(\Delta x^2)$ tendo em vista que este é o maior erro que o método possui. Separando os termos que possuem da deriva dos que não são, implica em
+\begin{equation}
+  \label{udv2r}
+  t_{i+1}+t_{i-1} - 2t_i = m^2 [t_i - T_{amb}] (\Delta x)^2+\mathcal(O)(\Delta x^2)
+\end{equation}
+
+considerando as condições de contorno, monta-se um sistema de equações abaixo
+
+\begin{equation}
+  \label{syseq}
+  \systeme*{t_2 - 2t_1 + t_0= m^2[t_1-T_{amb}](\Delta x)^2, t_3 - 2t_2 + t_1= m^2[t_2-T_{amb}](\Delta x)^2, t_4 - 2t_3 + t_2= m^2[t_3-T_{amb}](\Delta x)^2,t_5 - 2t_4 + t_3= m^2[t_4-T_{amb}](\Delta x)^2, t_6 - 2t_5 + t_4= m^2[t_5-T_{amb}](\Delta x)^2, t_7 - 2t_6 + t_5= m^2[t_6-T_{amb}](\Delta x)^2,t_8 - 2t_7 + t_6= m^2[t_7-T_{amb}](\Delta x)^2,t_9 - 2t_8 + t_7= m^2[t_8-T_{amb}](\Delta x)^2, t_{10} - 2t_9 + t_8= m^2[t_9-T_{amb}](\Delta x)^2}
+\end{equation}
+com $t_0 = T_0$ e $T_{10} = T_{N}$
 % origem na definição de derivada. A derivada é fornecida pela definição de limite 
 % 
 % \begin{equation}
@@ -122,7 +140,17 @@ Abaixo apresenta-se o resultado desta simulação
 \centering
 \includegraphics[scale=0.8]{figs/fst.png}
 \end{figure}
- 
+O próximo experimento foi $m^2 = 0$, que para fins de simplificação, foi feito removendo a troca de calor por convecção($k$). 
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.8]{figs/snd.png}
+\end{figure}
+
+O próximo experimento foi $m^2$ tendendo com valores muito altos afim de reproduzir $m^2 \to \infty$, que para fins de simplificação, foi feio fazendo $D \to 0$. 
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.8]{figs/trd.png}
+\end{figure}
 
 \section{CONCLUSÃO}
 
