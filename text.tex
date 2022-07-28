@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{systeme}
-
+\usepackage{subcaption}
 \begin{document}
 
 \vspace{0.5cm}
@@ -139,19 +139,35 @@ Para este trabalho, foram disponibilizados certas condições para que fosse sim
 Abaixo apresenta-se o resultado desta simulação
 \begin{figure}[ht!]
 \centering
-\includegraphics[scale=0.8]{figs/fst.png}
+\includegraphics[scale=0.5]{figs/fst.png}
 \end{figure}
-O próximo experimento foi $m^2 = 0$, que para fins de simplificação, foi feito removendo a troca de calor por convecção($k$). 
+Nesta imagem, nota-se que a temperatura ao longo do corpo nunca chega a ser menor que a temperatura ambiente.\newline
+Os próximos experimentos foi $m^2 = 0$ com $k=0$ e $m^2$ tendendo com valores muito altos afim de reproduzir $m^2 \to \infty$ com $D \to 0$. 
 \begin{figure}[ht!]
 \centering
-\includegraphics[scale=0.8]{figs/snd.png}
+  \subfloat{
+    \includegraphics[width=.4\linewidth]{figs/snd.png}
+  }%
+  \qquad
+  \subfloat{
+    \includegraphics[width=.4\linewidth]{figs/trd.png}
+  }%
+\end{figure}
+O primeiro gráfico mostra que quando $m^2=0$ o calor vai diminuindo linearmente ao longo da barra, por outro lado, se $m^2 \to \infty$, passa a não haver condutividade térmica ao longo do corpo.
+\newline
+Em seguida, altera-se $T_{amb}$ quando a temperatura ambiente está entre $T_0$ e $T_{N}$ e quando ela é maior que ambas as temperaturas. Seguem as imagens dos resultados
+\begin{figure}[ht!]
+\centering
+  \subfloat{
+    \includegraphics[width=.4\linewidth]{figs/frth.png}
+  }%
+  \qquad
+  \subfloat{
+    \includegraphics[width=.4\linewidth]{figs/ffth.png}
+  }%
 \end{figure}
 
-O próximo experimento foi $m^2$ tendendo com valores muito altos afim de reproduzir $m^2 \to \infty$, que para fins de simplificação, foi feio fazendo $D \to 0$. 
-\begin{figure}[ht!]
-\centering
-\includegraphics[scale=0.8]{figs/trd.png}
-\end{figure}
+Aqui percebe-se que ao longo do corpo, a temperatura sempre vai se aproximar da temperatura ambiente, independentemente do valor da mesma.
 
 \section{CONCLUSÃO}
 
