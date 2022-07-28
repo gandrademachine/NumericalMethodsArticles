@@ -29,9 +29,9 @@ sendo o termo $T_{amb}$ é a temperatura ambiente, $T(x)$ é a temperatura ao lo
 onde 
 \section{O PROBLEMA}
 
-O problema de transferência de calor é um problema de segunda ordem \ldots
-A maneira mais apropriada de resolver o problema analítico descrito em~\ref{heat} é por meio da utilização da técnica da equação característica. Nela escreve-se a equação diferencial de segunda
-ordem em uma equação polinomial de segundo grau para resolver o problema homogêneo e após isso, encontra-se a solução particular. Reescreve-se~\label{heat} de maneira a separar todos os termos $T(x)$ do
+O problema de transferência de calor em regime permanente é um problema de segunda ordem não homogêneo, assim sendo esta equação possui uma parte homogênea e outra particular. \ldots
+A maneira mais apropriada de resolver o problema analítico descrito em~\ref{heat} é por meio da utilização da técnica da equação característica a fim de encontrar a parte homogênea e em seguida
+encontrar a solução particular. Nela escreve-se a equação diferencial de segunda ordem em uma equação polinomial de segundo grau para resolver o problema homogêneo e após isso, encontra-se a solução particular. Reescreve-se~\label{heat} de maneira a separar todos os termos $T(x)$ do
 `resto'.
 
 \begin{equation}
@@ -48,9 +48,10 @@ a equação característica $Z(r)$ é obtida a partir da reformulação da EDO e
 a solução homogênea $y_{h}(x)$ é escrita como 
 \begin{equation}
   \label{homogenous}
-  y_{h}(x) = c_1 \exp(mx) + c_2 \exp(-mx)
+  T_{h}(x) = c_1 \exp(mx) + c_2 \exp(-mx)
 \end{equation}
 
+para a equação de \ref{heat} ser válida, basta que seja adicionado $T_{amb}$, portanto $T(x)= c_1 \exp(mx) + c_2 \exp(-mx)+T_{amb}$.
 
 A abordagem numérica utilizada para este trabalho será apoiada na utilização de métodos de diferenças finitas, com ênfase em uma abordagem por diferenças centradas de três pontos para a 
 segunda derivada. 
